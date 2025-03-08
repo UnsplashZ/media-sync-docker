@@ -1,0 +1,36 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  file-sync:
+    build: .
+    container_name: file_sync
+    restart: unless-stopped
+    volumes:
+      # 挂载源目录和目标目录
+      - /mnt/user/downloads/qbit/movies:/mnt/user/downloads/qbit/movies
+      - /mnt/user/media/test:/mnt/user/media/test
+      # 挂载配置文件
+      - ./app/config.yaml:/app/config.yaml:ro
+      # 挂载缓存数据库
+      - file_sync_cache:/app/cache
+      # 挂载日志目录
+      - ./logs:/app/logs
+    environment:
+      - CONFIG_PATH=/app/config.yaml
+      - DB_PATH=/app/cache/sync_cache.db
+    user: "1000:100"
+    # 可以在 .env 文件中定义 UID 和 GID
+    # 或者直接替换为目标用户的 UID 和 GID，如 '1000:1000'
+    network_mode: bridge 
+
+volumes:
+  file_sync_cache:
+    driver: local
+    driver_opts:
+      o: uid=1000,gid=100,umask=000
+  logs:
+    driver: local
+    driver_opts:
+      o: uid=1000,gid=100,umask=000

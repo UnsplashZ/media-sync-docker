@@ -1,0 +1,6 @@
+# app/config.yaml
+
+mappings:
+  - source: /mnt/user/downloads/qbit/movies
+    target: /mnt/user/media/test
+    extensions: [".mkv", ".iso", ".ts", ".mp4", ".avi", ".rmvb", ".wmv", ".m2ts", ".mpg", ".flv", ".rm", ".mov", ".ass", ".srt", ".sup"]
